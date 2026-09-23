@@ -1,0 +1,6 @@
+{
+  "name": "Hospital Appointment Management System",
+  "description": "A comprehensive healthcare web application connecting patients, doctors, receptionists, and administrators with appointment scheduling, live queue tracking, doctor rosters, and clinical workflows.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
