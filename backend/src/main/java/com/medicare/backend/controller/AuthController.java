@@ -176,50 +176,7 @@ public class AuthController {
         ));
     }
 
-    // 5. Reset Password (patient or doctor by email)
-    @PostMapping("/reset-password")
-    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body) {
-        String email = body.get("email") != null ? body.get("email").trim() : "";
-        String newPassword = body.get("newPassword") != null ? body.get("newPassword").trim() : "";
-
-        if (email.isEmpty() || newPassword.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Email and new password are required"));
-        }
-        if (newPassword.length() < 6) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Password must be at least 6 characters"));
-        }
-
-        String encoded = passwordEncoder.encode(newPassword);
-
-        // Try patient
-        Patient patient = patientRepository.findByEmail(email).orElse(null);
-        if (patient != null) {
-            patient.setPassword(encoded);
-            patientRepository.save(patient);
-            return ResponseEntity.ok(Map.of("message", "Password reset successful", "role", "patient"));
-        }
-
-        // Try doctor
-        Doctor doctor = doctorRepository.findByEmail(email).orElse(null);
-        if (doctor != null) {
-            doctor.setPassword(encoded);
-            doctorRepository.save(doctor);
-            return ResponseEntity.ok(Map.of("message", "Password reset successful", "role", "doctor"));
-        }
-
-        // Try admin
-        Admin admin = adminRepository.findByEmail(email).orElse(null);
-        if (admin != null) {
-            admin.setPassword(encoded);
-            adminRepository.save(admin);
-            return ResponseEntity.ok(Map.of("message", "Password reset successful", "role", "admin"));
-        }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body(Map.of("message", "No account found with this email address"));
-    }
-
-    // 6. Admin Login
+    // 5. Admin Login
     @PostMapping("/admin/login")
     public ResponseEntity<?> adminLogin(@RequestBody LoginRequest request) {
         String id = request.getIdentifier() != null ? request.getIdentifier().trim() : "";

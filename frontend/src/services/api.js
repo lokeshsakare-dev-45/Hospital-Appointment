@@ -99,14 +99,8 @@ export const authService = {
     return data;
   },
 
-  async resetPassword(email, newPassword) {
-    return await request('/api/auth/reset-password', {
-      method: 'POST',
-      body: JSON.stringify({ email, newPassword }),
-    });
-  },
-
-  logout() {    localStorage.removeItem('isLoggedIn');
+  logout() {
+    localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userRole');
     localStorage.removeItem('userId');
     localStorage.removeItem('userName');

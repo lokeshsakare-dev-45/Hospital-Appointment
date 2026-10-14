@@ -1,5 +1,6 @@
 package com.medicare.backend.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +19,11 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    // Inject the frontend origin from env var FRONTEND_URL.
+    // Falls back to localhost for local development.
+    @Value("${FRONTEND_URL:http://localhost:5173}")
+    private String frontendUrl;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,7 +46,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:*"));
+        config.setAllowedOriginPatterns(List.of(
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "http://localhost:*",
+            frontendUrl,          // Render frontend URL from env var
+            "https://*.onrender.com"
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

@@ -26,7 +26,6 @@ import AdminAllAppointments from './pages/AdminAllAppointments';
 import AdminDepartments from './pages/AdminDepartments';
 import AdminReports from './pages/AdminReports';
 import AdminSettings from './pages/AdminSettings';
-import ForgotPassword from './pages/ForgotPassword';
 
 function AppLayout({ children, role }) {
   return (
@@ -60,7 +59,6 @@ function App() {
         <Route path="/register/patient" element={<MainLayout><PatientRegistration /></MainLayout>} />
         <Route path="/register/doctor" element={<MainLayout><DoctorRegistration /></MainLayout>} />
         <Route path="/admin/login" element={<MainLayout><AdminLogin /></MainLayout>} />
-        <Route path="/forgot-password" element={<MainLayout><ForgotPassword /></MainLayout>} />
         
         {/* Public Browsing Routes */}
         <Route path="/find-doctor" element={<MainLayout><FindDoctor /></MainLayout>} />

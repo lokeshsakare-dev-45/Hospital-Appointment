@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';import { Activity } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Activity } from 'lucide-react';
 import { authService } from '../services/api';
 
 export default function DoctorLogin() {
@@ -63,7 +64,7 @@ export default function DoctorLogin() {
             {loading ? 'Logging in...' : 'Login'}
           </button>
           <div className="text-center mb-3">
-            <Link to="/forgot-password" style={{ color: 'var(--primary-color)', fontSize: '0.875rem' }}>Forgot Password?</Link>
+            <a href="#" style={{ color: 'var(--primary-color)', fontSize: '0.875rem' }}>Forgot Password?</a>
           </div>
           <div className="text-center" style={{ fontSize: '0.875rem' }}>
             Don't have an account? <Link to="/register/doctor" style={{ color: 'var(--primary-color)', fontWeight: '600' }}>Register as Doctor</Link>

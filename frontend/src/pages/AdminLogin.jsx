@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Activity } from 'lucide-react';
 import { authService } from '../services/api';
 
@@ -64,7 +64,7 @@ export default function AdminLogin() {
             {loading ? 'Logging in...' : 'Login'}
           </button>
           <div className="text-center mt-3">
-            <Link to="/forgot-password" style={{ color: 'var(--primary-color)', fontSize: '0.875rem' }}>Forgot Password?</Link>
+            <a href="#" style={{ color: 'var(--primary-color)', fontSize: '0.875rem' }}>Forgot Password?</a>
           </div>
         </form>
       </div>

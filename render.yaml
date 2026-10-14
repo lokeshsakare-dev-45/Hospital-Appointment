@@ -1,0 +1,29 @@
+services:
+  # ── Backend: Spring Boot ──────────────────────────────────────────────────
+  - type: web
+    name: medicare-backend
+    runtime: java
+    rootDir: backend
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -jar target/backend-0.0.1-SNAPSHOT.jar
+    healthCheckPath: /api/departments
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false          # set manually in Render dashboard
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      - key: JAVA_TOOL_OPTIONS
+        value: "-Xmx512m -Xms256m"
+
+  # ── Frontend: React + Vite ────────────────────────────────────────────────
+  - type: web
+    name: medicare-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false          # set to your backend Render URL manually
