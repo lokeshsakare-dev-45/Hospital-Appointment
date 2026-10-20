@@ -1,12 +1,13 @@
 services:
-  # ── Backend: Java Spring Boot via Docker ──────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────
+  # Backend — Java 21 Spring Boot, built and run via Docker
+  # Render builds this using backend/Dockerfile (multi-stage Maven + JRE)
+  # ─────────────────────────────────────────────────────────────────────────
   - type: web
     name: medicare-backend
-    runtime: image
-    rootDir: backend
-    image:
-      url: docker.io/library/medicare-backend:latest
+    runtime: docker
     dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     healthCheckPath: /api/departments
     envVars:
       - key: SPRING_DATASOURCE_URL
@@ -20,7 +21,10 @@ services:
       - key: JAVA_TOOL_OPTIONS
         value: "-Xmx512m -Xms256m"
 
-  # ── Frontend: React + Vite Static Site ───────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────
+  # Frontend — React + Vite, deployed as a static site
+  # Render runs: npm install && npm run build  inside frontend/
+  # ─────────────────────────────────────────────────────────────────────────
   - type: web
     name: medicare-frontend
     runtime: static
