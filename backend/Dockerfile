@@ -22,4 +22,4 @@ COPY --from=build /app/target/backend-0.0.1-SNAPSHOT.jar app.jar
 # Render injects $PORT at runtime; Spring Boot reads it via server.port=${PORT:8080}
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-Xmx512m", "-Xms256m", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=70", "-jar", "app.jar"]

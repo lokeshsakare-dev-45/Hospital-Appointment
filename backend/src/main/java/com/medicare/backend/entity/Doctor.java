@@ -33,6 +33,8 @@ public class Doctor {
     
     private Integer experienceYears;
     
+    private String mobile;
+
     @ManyToOne
     @JoinColumn(name = "department_id")
     @NotNull
@@ -41,7 +43,7 @@ public class Doctor {
     @Enumerated(EnumType.STRING)
     private DoctorStatus status = DoctorStatus.PENDING;
     
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<DoctorSchedule> schedules;
 
     public enum DoctorStatus {
@@ -63,6 +65,8 @@ public class Doctor {
     public void setQualification(String qualification) { this.qualification = qualification; }
     public Integer getExperienceYears() { return experienceYears; }
     public void setExperienceYears(Integer experienceYears) { this.experienceYears = experienceYears; }
+    public String getMobile() { return mobile; }
+    public void setMobile(String mobile) { this.mobile = mobile; }
     public Department getDepartment() { return department; }
     public void setDepartment(Department department) { this.department = department; }
     public DoctorStatus getStatus() { return status; }

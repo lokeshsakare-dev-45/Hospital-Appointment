@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final PatientRepository patientRepository;
@@ -158,6 +157,7 @@ public class AuthController {
         Doctor doctor = new Doctor();
         doctor.setName(request.getName());
         doctor.setEmail(request.getEmail());
+        doctor.setMobile(request.getMobile());
         doctor.setPassword(passwordEncoder.encode(request.getPassword()));
         doctor.setSpecialization(request.getSpecialization());
         if (request.getQualification() != null && !request.getQualification().isBlank()) {

@@ -10,7 +10,6 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/doctors")
-@CrossOrigin(origins = "*")
 public class DoctorController {
 
     private final DoctorRepository doctorRepository;
@@ -66,6 +65,7 @@ public class DoctorController {
     }
 
     @PostMapping("/{id}/schedule")
+    @org.springframework.transaction.annotation.Transactional
     public ResponseEntity<?> saveDoctorSchedule(@PathVariable Long id, @RequestBody List<Map<String, String>> schedules) {
         Doctor doctor = doctorRepository.findById(id).orElse(null);
         if (doctor == null) {
