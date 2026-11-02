@@ -55,6 +55,7 @@ export const authService = {
     localStorage.setItem('userName', data.name);
     localStorage.setItem('userEmail', data.email);
     if (data.token) localStorage.setItem('authToken', data.token);
+    window.dispatchEvent(new Event('authChange'));
     return data;
   },
 
@@ -76,6 +77,7 @@ export const authService = {
     localStorage.setItem('userName', data.name);
     localStorage.setItem('userEmail', data.email);
     if (data.token) localStorage.setItem('authToken', data.token);
+    window.dispatchEvent(new Event('authChange'));
     return data;
   },
 
@@ -97,6 +99,7 @@ export const authService = {
     localStorage.setItem('userName', data.name);
     localStorage.setItem('userEmail', data.email);
     if (data.token) localStorage.setItem('authToken', data.token);
+    window.dispatchEvent(new Event('authChange'));
     return data;
   },
 
@@ -107,6 +110,7 @@ export const authService = {
     localStorage.removeItem('userName');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('authToken');
+    window.dispatchEvent(new Event('authChange'));
   },
 
   getCurrentUser() {

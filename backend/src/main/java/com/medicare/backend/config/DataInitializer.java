@@ -87,6 +87,7 @@ public class DataInitializer implements CommandLineRunner {
             rahul = new Doctor();
             rahul.setName("Dr. Rahul Sharma");
             rahul.setEmail("rahul@medicare.com");
+            rahul.setMobile("9876543201");
             rahul.setPassword(passwordEncoder.encode("password123"));
             rahul.setSpecialization("Cardiologist");
             rahul.setExperienceYears(8);
@@ -104,6 +105,7 @@ public class DataInitializer implements CommandLineRunner {
             Doctor priya = new Doctor();
             priya.setName("Dr. Priya Deshmukh");
             priya.setEmail("priya@medicare.com");
+            priya.setMobile("9876543202");
             priya.setPassword(passwordEncoder.encode("password123"));
             priya.setSpecialization("General Physician");
             priya.setExperienceYears(6);
@@ -114,12 +116,16 @@ public class DataInitializer implements CommandLineRunner {
             Doctor amit = new Doctor();
             amit.setName("Dr. Amit Patil");
             amit.setEmail("amit@medicare.com");
+            amit.setMobile("9876543203");
             amit.setPassword(passwordEncoder.encode("password123"));
             amit.setSpecialization("Orthopedic Surgeon");
             amit.setExperienceYears(12);
             amit.setDepartment(ortho);
             amit.setStatus(Doctor.DoctorStatus.APPROVED);
             doctorRepository.save(amit);
+        } else if (rahul != null && (rahul.getMobile() == null || rahul.getMobile().isBlank())) {
+            rahul.setMobile("9876543201");
+            doctorRepository.save(rahul);
         }
 
         // 4. Seed Patient

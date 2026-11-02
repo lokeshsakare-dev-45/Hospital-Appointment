@@ -96,11 +96,11 @@ public class AuthController {
     @PostMapping("/doctor/login")
     public ResponseEntity<?> doctorLogin(@RequestBody LoginRequest request) {
         String id = request.getIdentifier() != null ? request.getIdentifier().trim() : "";
-        Doctor doctor = doctorRepository.findByEmail(id).orElse(null);
+        Doctor doctor = doctorRepository.findByEmailOrMobile(id, id).orElse(null);
 
         if (doctor == null || !checkPassword(request.getPassword(), doctor.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("message", "Invalid doctor email or password"));
+                .body(Map.of("message", "Invalid doctor email/mobile or password"));
         }
 
         if (doctor.getStatus() == Doctor.DoctorStatus.PENDING) {
@@ -128,9 +128,13 @@ public class AuthController {
     // 4. Doctor Register
     @PostMapping("/doctor/register")
     public ResponseEntity<?> doctorRegister(@Valid @RequestBody DoctorRegisterRequest request) {
-        if (doctorRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (doctorRepository.existsByEmail(request.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("message", "Email is already registered"));
+        }
+        if (request.getMobile() != null && doctorRepository.existsByMobile(request.getMobile())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("message", "Mobile number is already registered"));
         }
 
         Department department = null;

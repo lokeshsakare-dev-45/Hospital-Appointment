@@ -1,7 +1,10 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
+import ProtectedRoute from './components/ProtectedRoute';
+
 import Home from './pages/Home';
+import About from './pages/About';
 import PatientLogin from './pages/PatientLogin';
 import DoctorLogin from './pages/DoctorLogin';
 import PatientRegistration from './pages/PatientRegistration';
@@ -53,39 +56,159 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainLayout><Home /></MainLayout>} />
-        <Route path="/patient/login" element={<MainLayout><PatientLogin /></MainLayout>} />
-        <Route path="/doctor/login" element={<MainLayout><DoctorLogin /></MainLayout>} />
-        <Route path="/register/patient" element={<MainLayout><PatientRegistration /></MainLayout>} />
-        <Route path="/register/doctor" element={<MainLayout><DoctorRegistration /></MainLayout>} />
-        <Route path="/admin/login" element={<MainLayout><AdminLogin /></MainLayout>} />
-        
         {/* Public Browsing Routes */}
+        <Route path="/" element={<MainLayout><Home /></MainLayout>} />
+        <Route path="/about" element={<MainLayout><About /></MainLayout>} />
         <Route path="/find-doctor" element={<MainLayout><FindDoctor /></MainLayout>} />
         <Route path="/doctor-profile" element={<MainLayout><DoctorProfile /></MainLayout>} />
         <Route path="/book-appointment" element={<MainLayout><BookAppointment /></MainLayout>} />
-        
-        {/* Patient Routes */}
-        <Route path="/patient/dashboard" element={<AppLayout role="patient"><PatientDashboard /></AppLayout>} />
-        <Route path="/patient/my-appointments" element={<AppLayout role="patient"><MyAppointments /></AppLayout>} />
-        <Route path="/patient/appointment-history" element={<AppLayout role="patient"><AppointmentHistory /></AppLayout>} />
-        
-        {/* Doctor Routes */}
-        <Route path="/doctor/dashboard" element={<AppLayout role="doctor"><DoctorDashboard /></AppLayout>} />
-        <Route path="/doctor/appointment-requests" element={<AppLayout role="doctor"><DoctorAppointmentRequests /></AppLayout>} />
-        <Route path="/doctor/my-appointments" element={<AppLayout role="doctor"><DoctorMyAppointments /></AppLayout>} />
-        <Route path="/doctor/patients" element={<AppLayout role="doctor"><DoctorPatients /></AppLayout>} />
-        <Route path="/doctor/schedule" element={<AppLayout role="doctor"><DoctorSchedule /></AppLayout>} />
-        <Route path="/doctor/profile" element={<AppLayout role="doctor"><DoctorProfileDocView /></AppLayout>} />
-        
-        {/* Admin Routes */}
-        <Route path="/admin/dashboard" element={<AppLayout role="admin"><AdminDashboard /></AppLayout>} />
-        <Route path="/admin/doctors" element={<AppLayout role="admin"><AdminManageDoctors /></AppLayout>} />
-        <Route path="/admin/patients" element={<AppLayout role="admin"><AdminManagePatients /></AppLayout>} />
-        <Route path="/admin/appointments" element={<AppLayout role="admin"><AdminAllAppointments /></AppLayout>} />
-        <Route path="/admin/departments" element={<AppLayout role="admin"><AdminDepartments /></AppLayout>} />
-        <Route path="/admin/reports" element={<AppLayout role="admin"><AdminReports /></AppLayout>} />
-        <Route path="/admin/settings" element={<AppLayout role="admin"><AdminSettings /></AppLayout>} />
+
+        {/* Authentication Routes */}
+        <Route path="/patient/login" element={<MainLayout><PatientLogin /></MainLayout>} />
+        <Route path="/doctor/login" element={<MainLayout><DoctorLogin /></MainLayout>} />
+        <Route path="/admin/login" element={<MainLayout><AdminLogin /></MainLayout>} />
+        <Route path="/login" element={<Navigate to="/patient/login" replace />} />
+
+        {/* Registration Routes */}
+        <Route path="/register/patient" element={<MainLayout><PatientRegistration /></MainLayout>} />
+        <Route path="/register/doctor" element={<MainLayout><DoctorRegistration /></MainLayout>} />
+
+        {/* Protected Patient Routes */}
+        <Route
+          path="/patient/dashboard"
+          element={
+            <ProtectedRoute allowedRole="patient">
+              <AppLayout role="patient"><PatientDashboard /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/patient/my-appointments"
+          element={
+            <ProtectedRoute allowedRole="patient">
+              <AppLayout role="patient"><MyAppointments /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/patient/appointment-history"
+          element={
+            <ProtectedRoute allowedRole="patient">
+              <AppLayout role="patient"><AppointmentHistory /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Protected Doctor Routes */}
+        <Route
+          path="/doctor/dashboard"
+          element={
+            <ProtectedRoute allowedRole="doctor">
+              <AppLayout role="doctor"><DoctorDashboard /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/doctor/appointment-requests"
+          element={
+            <ProtectedRoute allowedRole="doctor">
+              <AppLayout role="doctor"><DoctorAppointmentRequests /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/doctor/my-appointments"
+          element={
+            <ProtectedRoute allowedRole="doctor">
+              <AppLayout role="doctor"><DoctorMyAppointments /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/doctor/patients"
+          element={
+            <ProtectedRoute allowedRole="doctor">
+              <AppLayout role="doctor"><DoctorPatients /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/doctor/schedule"
+          element={
+            <ProtectedRoute allowedRole="doctor">
+              <AppLayout role="doctor"><DoctorSchedule /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/doctor/profile"
+          element={
+            <ProtectedRoute allowedRole="doctor">
+              <AppLayout role="doctor"><DoctorProfileDocView /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Protected Admin Routes */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <AppLayout role="admin"><AdminDashboard /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/doctors"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <AppLayout role="admin"><AdminManageDoctors /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/patients"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <AppLayout role="admin"><AdminManagePatients /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/appointments"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <AppLayout role="admin"><AdminAllAppointments /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/departments"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <AppLayout role="admin"><AdminDepartments /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reports"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <AppLayout role="admin"><AdminReports /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/settings"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <AppLayout role="admin"><AdminSettings /></AppLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

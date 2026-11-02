@@ -10,6 +10,10 @@ import java.util.Optional;
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Optional<Doctor> findByEmail(String email);
+    Optional<Doctor> findByMobile(String mobile);
+    Optional<Doctor> findByEmailOrMobile(String email, String mobile);
+    boolean existsByEmail(String email);
+    boolean existsByMobile(String mobile);
     List<Doctor> findByStatus(Doctor.DoctorStatus status);
     List<Doctor> findByStatusAndDepartmentId(Doctor.DoctorStatus status, Long departmentId);
     List<Doctor> findByStatusAndNameContainingIgnoreCase(Doctor.DoctorStatus status, String name);
